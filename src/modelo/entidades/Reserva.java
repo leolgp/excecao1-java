@@ -38,9 +38,18 @@ public class Reserva {
         return checkOut;
     }
 
-    public void atualizarDatas(Date checkIn, Date checkOut){
+    public String atualizarDatas(Date in, Date out){
+        Date now = new Date();
+        
+        if (in.before(now) || out.before(now)){
+            return "As datas atualizadas devem ser datas futuras.";
+        }
+        if(!out.after(in) || out.equals(in)){
+            return "A data de saída atualizada deve ser depois da de entrada atualizada.";
+        }        
         this.checkIn = checkIn;
         this.checkOut = checkOut;
+        return null;
     }
     
     public Long duracao(){

@@ -40,21 +40,15 @@ public class Hotel {
         Date out = sdf.parse(sc.next());
         
         
-        Date now = new Date();
-        
-        if (in.before(now) || out.before(now)){
-            System.out.println("As datas atualizadas devem ser datas futuras.");
-        }else if(!out.after(in) || out.equals(in)){
-            System.out.println("A data de saída atualizada deve ser depois da de entrada atualizada.");
-        }else{
-        r.atualizarDatas(in, out);
-        System.out.println("Reserva: ");
-        System.out.println(r);
-        }
+        String erro = r.atualizarDatas(in, out);
+        if(erro != null){
+            System.out.println("Erro na reserva: " + erro);
+        } else{
+            System.out.println("Reserva: ");
+            System.out.println(r);
             
-            
-         sc.close();
+         
         }
-        
-    }}
+        sc.close();
+    }}}
     
