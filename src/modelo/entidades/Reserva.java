@@ -2,6 +2,7 @@ package modelo.entidades;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.concurrent.TimeUnit;
 
 public class Reserva {
     
@@ -42,8 +43,9 @@ public class Reserva {
         this.checkOut = checkOut;
     }
     
-    public Integer duracao(){
-        return sdf.format(checkOut).compareTo(sdf.format(checkIn));
+    public Long duracao(){
+        long diferenca = checkOut.getTime() - checkIn.getTime();
+        return TimeUnit.DAYS.convert(diferenca, TimeUnit.MILLISECONDS);
     }
 
     @Override
