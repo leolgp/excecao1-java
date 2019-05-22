@@ -3,6 +3,7 @@ package modelo.entidades;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
+import modelo.excecoes.Excecao;
 
 public class Reserva {
     
@@ -17,6 +18,17 @@ public class Reserva {
     }
 
     public Reserva(Integer quarto, Date checkIn, Date checkOut) {
+        Date now = new Date();
+        
+        if (checkIn.before(now) || checkOut.before(now)){
+            throw new Excecao("As datas devem ser datas futuras.");
+        }
+        if(!checkOut.after(checkIn)){
+            throw new Excecao("A data de saída deve ser depois da data de entrada.");
+        }
+        if(checkOut == checkIn){
+            throw new Excecao("A data de entrada não pode ser igual a data de saída.");
+        }
         this.quarto = quarto;
         this.checkIn = checkIn;
         this.checkOut = checkOut;
@@ -38,18 +50,20 @@ public class Reserva {
         return checkOut;
     }
 
-    public String atualizarDatas(Date in, Date out){
+    public void atualizarDatas(Date checkIn, Date checkOut) {
         Date now = new Date();
         
-        if (in.before(now) || out.before(now)){
-            return "As datas atualizadas devem ser datas futuras.";
+        if (checkIn.before(now) || checkOut.before(now)){
+            throw new Excecao("As datas atualizadas devem ser datas futuras.");
         }
-        if(!out.after(in) || out.equals(in)){
-            return "A data de saída atualizada deve ser depois da de entrada atualizada.";
+        if(!checkOut.after(checkIn) || checkOut.equals(checkIn)){
+            throw new Excecao ("A data de saída atualizada deve ser depois da de entrada atualizada.");
         }        
+        if(checkOut == checkIn){
+            throw new Excecao("A data atualizada de entrada não pode ser igual a data atualizada de saída.");
+        }
         this.checkIn = checkIn;
-        this.checkOut = checkOut;
-        return null;
+        this.checkOut= checkOut;  
     }
     
     public Long duracao(){
